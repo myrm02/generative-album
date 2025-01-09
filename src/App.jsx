@@ -181,7 +181,7 @@ function App() {
         <Container>
           {/* Première ligne avec éléments */}
           <Row>
-            <Col xs={6} md={3} className="text-center">
+            <Col xs={6} md={4} className="text-center">
               <label className="form-label">COULEUR-BACKGROUND</label>
               <select
                 className="form-input"
@@ -198,8 +198,8 @@ function App() {
             </Col>
 
             {/* Saisie du texte */}
-            <Col xs={6} md={3} className="text-center">
-              <label className="form-label">TEXTE</label>
+            <Col xs={6} md={4} className="text-center">
+              <label className="form-label">Dédicace</label>
               <input
                 type="text"
                 className="form-input"
@@ -210,7 +210,7 @@ function App() {
             </Col>
 
             {/* Sélection de l'image */}
-            <Col xs={6} md={3} className="text-center">
+            {/* <Col xs={6} md={3} className="text-center">
               <label className="form-label">IMAGE COVER</label>
               <select
                 className="form-input"
@@ -224,9 +224,9 @@ function App() {
                 <option value={Back}>Image 5</option>
                 <option value={dojaback}>Image 6</option>
               </select>
-            </Col>
+            </Col> */}
 
-            <Col xs={6} md={3} className="text-center">
+            <Col xs={6} md={4} className="text-center">
               <label className="form-label">Nombre d'illustrations</label>
               <input
                 type="number"
@@ -287,7 +287,8 @@ function App() {
                     bottom:"5%",
                     width: "400px",
                     height: "400px",
-                    backgroundImage: `url(${selectedCover})`,
+                    // backgroundImage: `url(${selectedCover})`,
+                    backgroundImage:`url(${Back})`,
                     backgroundSize: "contain",
                     backgroundPosition: "center",
                     backgroundRepeat: "no-repeat",
@@ -297,6 +298,26 @@ function App() {
                     filter: isFilterChecked ? randomFilter : "none"
                   }}
                 >
+                  <div
+                      style={{
+                        fontFamily: randomFont,
+                        color: "white",
+                        position: "absolute",
+                        bottom: "10px",
+                        left: "30%",
+                        bottom:"10%",
+                        transform: "translateX(-50%)",
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        textShadow: isTextEffectChecked ? textEffects: "none",
+                      }}
+                    >
+                      <h3>
+                      5 LOVE <br />
+                      LANGUAGES
+                    </h3>
+                    </div>
                   {/* Texte affiché */}
                   {inputText && (
                     <div
@@ -307,7 +328,7 @@ function App() {
                         bottom: "10px",
                         left: "30%",
                         transform: "translateX(-50%)",
-                        fontSize: "27px",
+                        fontSize: "16px",
                         fontWeight: "bold",
                         textAlign: "center",
                         textShadow: isTextEffectChecked ? textEffects: "none",
@@ -338,6 +359,25 @@ function App() {
                       zIndex:"-1",
                     }}
                   >
+                    <div
+                      style={{
+                        fontFamily: randomFont,
+                        color: "white",
+                        position: "absolute",
+                        bottom: "40%",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        textShadow: isTextEffectChecked ? textEffects: "none",
+                      }}
+                    >
+                      <h3>
+                      5 LOVE <br />
+                      LANGUAGES
+                    </h3>
+                    </div>
 
                   {/* Texte affiché */}
                   {inputText && (
@@ -345,11 +385,11 @@ function App() {
                       style={{
                         fontFamily: randomFont,
                         position: "absolute",
-                        top: "40%",
+                        top: "60%",
                         left: "50%",
                         transform: "translateX(-50%)",
                         color: "white",
-                        fontSize: "32px",
+                        fontSize: "10px",
                         fontWeight: "bold",
                         textAlign: "center",
                         textShadow: isTextEffectChecked ? textEffects : "none",
@@ -370,13 +410,17 @@ function App() {
                         width: "70%",
                         height: "70%",
                         borderRadius: "50%",
+                        backgroundImage:`url(${Back})`,
                         backgroundColor: generatedColor,
-                        zIndex: 1,
+                        zIndex: "-1",
+                        backgroundSize: "cover",
+                        backgroundPosition: "top",
+                        
                       }}
                     ></div>
                   )}
 
-                  {/* Image sélectionnée au centre */}
+                  {/* Image sélectionnée au centre
                   {selectedCover && (
                     <div
                       style={{
@@ -387,13 +431,14 @@ function App() {
                         width: "60%",
                         height: "60%",
                         borderRadius: "50%",
-                        backgroundImage: `url(${selectedCover})`,
+                        // backgroundImage: `url(${selectedCover})`,
+                        backgroundImage:`url(${Back})`,
                         backgroundSize: "cover",
                         backgroundPosition: "top",
                         zIndex: 2,
                       }}
                     ></div>
-                  )}
+                  )} */}
 
                 </div>
               </Col>
