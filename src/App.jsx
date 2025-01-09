@@ -56,19 +56,25 @@ const fontThemes = {
 };
 
 const textEffects = {
-  neon: "text-shadow: 0 0 5px #fff, 0 0 10px #ff6, 0 0 20px #fc0;",
-  threeD: "text-shadow: 1px 1px 2px black, 1px 1px 2px black;",
-  shadow: "text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);",
-  outline: "text-shadow: -1px -1px 0px #fff, 1px -1px 0px #fff, -1px 1px 0px #fff, 1px 1px 0px #fff;",
-  bold: "font-weight: bold;",
+  effet: [
+    "",
+    "text-shadow: 0 0 5px #fff, 0 0 10px #ff6, 0 0 20px #fc0;",
+    "text-shadow: 1px 1px 2px black, 1px 1px 2px black;",
+    "text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);",
+    "text-shadow: -1px -1px 0px #fff, 1px -1px 0px #fff, -1px 1px 0px #fff, 1px 1px 0px #fff;",
+    "font-weight: bold;",
+  ],
 };
 
 const filters = {
-  "tint-green": "filter: hue-rotate(-30deg) sepia(75%) contrast(150%) saturate(300%);",
-  cold: "filter: hue-rotate(180deg) sepia(75%) contrast(150%) saturate(300%);",
-  sepia: "filter: sepia(50%) contrast(150%) saturate(200%) brightness(100%);",
-  "black-and-white": "filter: brightness(70%) contrast(150%) saturate(0%);",
-  "tint-magenta": "filter: hue-rotate(-270deg) sepia(55%) contrast(150%) saturate(300%);",
+   filter: [
+    "",
+    "filter: hue-rotate(-30deg) sepia(75%) contrast(150%) saturate(300%);",
+    "filter: hue-rotate(180deg) sepia(75%) contrast(150%) saturate(300%);",
+    "filter: sepia(50%) contrast(150%) saturate(200%) brightness(100%);",
+    "filter: brightness(70%) contrast(150%) saturate(0%);",
+    "filter: hue-rotate(-270deg) sepia(55%) contrast(150%) saturate(300%);",
+  ],
 };
 
 
@@ -78,15 +84,14 @@ function App() {
   const [generatedColor, setGeneratedColor] = useState("");
   const [selectedCover, setSelectedCover] = useState(null);
   const mainRef = useRef(null);
-  const coverMakerRef = useRef(null);
+  const [isGenerated, setIsGenerated] = useState(false);
   const [inputText, setInputText] = useState("");
   const [randomFont, setRandomFont] = useState(fontThemes.themes[0]);
-  const [selectedFilter, setSelectedFilter] = useState("Aucun");
-  const [selectedTextEffect, setSelectedTextEffect] = useState("Aucun");
-  const [generatedTextEffect, setGeneratedTextEffect] = useState(null);
-  const [generatedFilter, setGeneratedFilter] = useState(null);
+  const [randomFilter, setFilter] = useState(filters.filter[0]);
+  const [randomTextEffect, setTextEffect] = useState(textEffects.effet[0]);
   const [isTextEffectChecked, setIsTextEffectChecked] = useState(false);
   const [isFilterChecked, setIsFilterChecked] = useState(false);
+  const coverMakerRef = useRef(null);
 
 
   const handleScrollToCoverMaker = () => {
@@ -94,20 +99,11 @@ function App() {
     coverMakerRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const getRandomFont = () => {
-    const fonts = fontThemes.themes;
-    return fonts[Math.floor(Math.random() * fonts.length)];
-  };
+  const getRandomFont = () => fontThemes.themes[Math.floor(Math.random() * fontThemes.themes.length)];
   
-  const getRandomFilter = () => {
-    const filterKeys = Object.keys(filters);
-    return filterKeys[Math.floor(Math.random() * filterKeys.length)];
-  };
+  const getRandomFilter = () => filters.filter[Math.floor(Math.random() * filters.filter.length)];
 
-  const getRandomTextEffect = () => {
-    const effectKeys = Object.keys(textEffects);
-    return effectKeys[Math.floor(Math.random() * effectKeys.length)];
-  };
+  const getRandomTextEffect = () => textEffects.effet[Math.floor(Math.random() * textEffects.effet.length)];
 
   
   const handleGenerateFont = () => {
@@ -116,26 +112,32 @@ function App() {
   };
   
   const handleGenerateFilter = () => {
-    const filter = getRandomFilter();
-    setSelectedFilter(filter);
-  };
-
-  const handleGenerateTextEffect = () => {
-    const effect = getRandomTextEffect();
-    setSelectedTextEffect(effect);
+    const filterCover = getRandomFilter();
+    setFilter(filterCover); 
   };
   
-  const handleGenerate = () => {
-    handleGenerateFont();
-    handleGenerateTextEffet();
-    handleGenerateFilter();
+  const handleGenerateTextEffect = () => {
+    const effeText = getRandomTextEffect();
+    setTextEffect(effeText);  
   };
+  
 
   const handleColorChange = (color) => {
     setSelectedColor(color);
     const randomIndex = Math.floor(Math.random() * colorThemes[color].length);
     setGeneratedColor(colorThemes[color][randomIndex]);
   };
+
+  const handleGenerate = () => {
+    setIsGenerated(true);
+    if (isTextEffectChecked) handleGenerateTextEffect();
+    if (isFilterChecked) handleGenerateFilter();
+    handleGenerateFont();
+    if (selectedColor) {  
+      handleColorChange(selectedColor); 
+    }
+  };
+  
 
   return (
     <div className="app-container">
@@ -266,124 +268,127 @@ function App() {
               <button className="cta-button" onClick={handleGenerate}>GÉNÉRER</button>
             </Col>
           </Row>
-
           {/* Zone d'aperçu */}
           <Row className="mt-5">
-           {/* Aperçu Cover */}
-            <Col xs={6} className="text-center">
-              <div
-                className="cover-preview"
-                style={{
-                  width: "300px",
-                  height: "300px",
-                  backgroundImage: `url(${selectedCover})`,
-                  backgroundSize: "contain",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundColor: generatedColor,
-                  border: "1px solid #ccc",
-                  borderRadius: "15px",
-                  position: "relative",
-                  filter: isFilterChecked ? filters[selectedFilter] : "none",
-                }}
-              >
-                {/* Texte affiché */}
-                {inputText && (
-                  <div
-                    style={{
-                      fontFamily: randomFont,
-                      color: "black",
-                      position: "absolute",
-                      bottom: "10px",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      fontSize: "20px",
-                      fontWeight: "bold",
-                      textAlign: "center",
-                      textShadow: isTextEffectChecked ? textEffects[selectedTextEffect] : "none",
-                    }}
-                  >
-                    {inputText}
-                  </div>
-                )}
-              </div>
-            </Col>
+          {isGenerated && (
+            <>
+              <Col xs={6} className="text-center">
+                <div
+                  className="cover-preview"
+                  style={{
+                    width: "300px",
+                    height: "300px",
+                    backgroundImage: `url(${selectedCover})`,
+                    backgroundSize: "contain",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                    backgroundColor: generatedColor,
+                    border: "1px solid #ccc",
+                    borderRadius: "15px",
+                    position: "relative",
+                    filter: isFilterChecked ? filters[randomFilter] : "none",
+                  }}
+                >
+                  {/* Texte affiché */}
+                  {inputText && (
+                    <div
+                      style={{
+                        fontFamily: randomFont,
+                        color: "black",
+                        position: "absolute",
+                        bottom: "10px",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        textShadow: isTextEffectChecked ? textEffects[randomTextEffect] : "none",
+                      }}
+                    >
+                      {inputText}
+                    </div>
+                  )}
+                </div>
+              </Col>
 
-            {/* Aperçu CD */}
-            <Col xs={6} className="text-center">
-              <div
-                className="cd-preview"
-                style={{
-                  position: "relative",
-                  width: "300px",
-                  height: "300px",
-                  borderRadius: "50%",
-                  background:
-                    "repeating-radial-gradient(rgba(228, 228, 228, 0) 23px, rgba(228, 228, 228, .05) 25px, rgba(228, 228, 228, 0) 27px) content-box, repeating-radial-gradient(rgba(166, 166, 166, 0) 13px, rgba(166, 166, 166, .05) 15px, rgba(166, 166, 166, 0) 17px) content-box, repeating-radial-gradient(rgba(139, 139, 139, 0) 19px, rgba(139, 139, 139, .05) 21px, rgba(139, 139, 139, 0) 23px) content-box, conic-gradient(#cdcdcd, #9d9d9d, #808080, #bcbcbc, #c4c4c4, #e6e6e6, #ddd, #a1a1a1, #7f7f7f, #8b8b8b, #bfbfbf, #e3e3e3, #d2d2d2, #a6a6a6, #858585, #8d8d8d, #c0c0c0, #e5e5e5, #d6d6d6, #9e9e9e, #828282, #8f8f8f, #bdbdbd, #e3e3e3, #cdcdcd)",
-                  backgroundSize: "cover",
-                  boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)",
-                  margin: "0 auto",
-                  filter: isFilterChecked ? filters[selectedFilter] : "none",
-                }}
-              >
-                {/* Texte affiché */}
-                {inputText && (
-                  <div
-                    style={{
-                      fontFamily: randomFont,
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      color: "black",
-                      fontSize: "16px",
-                      fontWeight: "bold",
-                      textAlign: "center",
-                      textShadow: isTextEffectChecked ? textEffects[selectedTextEffect] : "none",
-                      zIndex: 3,
-                    }}
-                  >
-                    {inputText}
-                  </div>
-                )}
+              {/* Aperçu CD */}
+              <Col xs={6} className="text-center">
+                <div
+                  className="cd-preview"
+                  style={{
+                    position: "relative",
+                    width: "300px",
+                    height: "300px",
+                    borderRadius: "50%",
+                    background:
+                      "repeating-radial-gradient(rgba(228, 228, 228, 0) 23px, rgba(228, 228, 228, .05) 25px, rgba(228, 228, 228, 0) 27px) content-box, repeating-radial-gradient(rgba(166, 166, 166, 0) 13px, rgba(166, 166, 166, .05) 15px, rgba(166, 166, 166, 0) 17px) content-box, repeating-radial-gradient(rgba(139, 139, 139, 0) 19px, rgba(139, 139, 139, .05) 21px, rgba(139, 139, 139, 0) 23px) content-box, conic-gradient(#cdcdcd, #9d9d9d, #808080, #bcbcbc, #c4c4c4, #e6e6e6, #ddd, #a1a1a1, #7f7f7f, #8b8b8b, #bfbfbf, #e3e3e3, #d2d2d2, #a6a6a6, #858585, #8d8d8d, #c0c0c0, #e5e5e5, #d6d6d6, #9e9e9e, #828282, #8f8f8f, #bdbdbd, #e3e3e3, #cdcdcd)",
+                    backgroundSize: "cover",
+                    boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)",
+                    margin: "0 auto",
+                    filter: isFilterChecked ? filters[randomFilter] : "none",
+                  }}
+                >
+                  {/* Texte affiché */}
+                  {inputText && (
+                    <div
+                      style={{
+                        fontFamily: randomFont,
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        color: "black",
+                        fontSize: "16px",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        textShadow: isTextEffectChecked ? textEffects[randomTextEffect] : "none",
+                        zIndex: 3,
+                      }}
+                    >
+                      {inputText}
+                    </div>
+                  )}
 
-                {/* Cercle de couleur au centre */}
-                {generatedColor && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "15%",
-                      left: "15%",
-                      width: "70%",
-                      height: "70%",
-                      borderRadius: "50%",
-                      backgroundColor: generatedColor,
-                      zIndex: 1,
-                    }}
-                  ></div>
-                )}
+                  {/* Cercle de couleur au centre */}
+                  {generatedColor && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "15%",
+                        left: "15%",
+                        width: "70%",
+                        height: "70%",
+                        borderRadius: "50%",
+                        backgroundColor: generatedColor,
+                        zIndex: 1,
+                      }}
+                    ></div>
+                  )}
 
-                {/* Image sélectionnée au centre */}
-                {selectedCover && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                      width: "60%",
-                      height: "60%",
-                      borderRadius: "50%",
-                      backgroundImage: `url(${selectedCover})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "top",
-                      zIndex: 2,
-                    }}
-                  ></div>
-                )}
+                  {/* Image sélectionnée au centre */}
+                  {selectedCover && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        width: "60%",
+                        height: "60%",
+                        borderRadius: "50%",
+                        backgroundImage: `url(${selectedCover})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "top",
+                        zIndex: 2,
+                      }}
+                    ></div>
+                  )}
 
-              </div>
-            </Col>
+                </div>
+              </Col>
+            </>
+          )}
+
 
           </Row>
         </Container>
