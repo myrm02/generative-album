@@ -40,7 +40,6 @@ const colorThemes = {
   ]
 };
 
-
 const fontThemes = {
   themes: [
     "Lavishly Yours",
@@ -56,6 +55,22 @@ const fontThemes = {
   ],
 };
 
+const textEffects = {
+  neon: "text-shadow: 0 0 5px #fff, 0 0 10px #ff6, 0 0 20px #fc0;",
+  threeD: "text-shadow: 1px 1px 2px black, 1px 1px 2px black;",
+  shadow: "text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);",
+  outline: "text-shadow: -1px -1px 0px #fff, 1px -1px 0px #fff, -1px 1px 0px #fff, 1px 1px 0px #fff;",
+  bold: "font-weight: bold;",
+};
+
+const filters = {
+  "tint-green": "filter: hue-rotate(-30deg) sepia(75%) contrast(150%) saturate(300%);",
+  cold: "filter: hue-rotate(180deg) sepia(75%) contrast(150%) saturate(300%);",
+  sepia: "filter: sepia(50%) contrast(150%) saturate(200%) brightness(100%);",
+  "black-and-white": "filter: brightness(70%) contrast(150%) saturate(0%);",
+  "tint-magenta": "filter: hue-rotate(-270deg) sepia(55%) contrast(150%) saturate(300%);",
+};
+
 
 function App() {
   const [isVisible, setIsVisible] = useState(false);
@@ -66,6 +81,14 @@ function App() {
   const coverMakerRef = useRef(null);
   const [inputText, setInputText] = useState("");
   const [randomFont, setRandomFont] = useState(fontThemes.themes[0]);
+  const [selectedFilter, setSelectedFilter] = useState("Aucun");
+  const [selectedTextEffect, setSelectedTextEffect] = useState("Aucun");
+  const [generatedTextEffect, setGeneratedTextEffect] = useState(null);
+  const [generatedFilter, setGeneratedFilter] = useState(null);
+  const [isTextEffectChecked, setIsTextEffectChecked] = useState(false);
+  const [isFilterChecked, setIsFilterChecked] = useState(false);
+
+
 
   const handleScrollToCoverMaker = () => {
     setIsVisible(true);
@@ -80,6 +103,22 @@ function App() {
   const handleGenerateFont = () => {
     const font = getRandomFont();
     setRandomFont(font);
+  };
+
+  // const handleGenerateFilter = () => {
+  //   const filter = getRandomFilter();
+  //   setRandomFilter(filter);
+  // };
+
+  const handleGenerateFilter = () => {
+    const randomFilter = getRandomFilter();
+    setGeneratedFilter(randomFilter);
+  };
+  
+  const handleGenerate = () => {
+    handleGenerateFont();
+    handleGenerateTextEffet();
+    handleGenerateFilter();
   };
 
   const handleColorChange = (color) => {
@@ -120,8 +159,8 @@ function App() {
         className={`covermaker-section ${isVisible ? "" : "hidden"}`}
       >
         <Container>
+          {/* Première ligne avec éléments */}
           <Row>
-            {/* Première ligne avec éléments */}
             <Col xs={6} md={3} className="text-center">
               <label className="form-label">COULEUR-BACKGROUND</label>
               <select
@@ -179,17 +218,28 @@ function App() {
             </Col>
           </Row>
           
-
           {/* Ligne effets */}
           <Row className="mt-4">
             <Col xs={4} className="text-center">
               <label>
-                <input type="checkbox" className="form-check-input" /> Effet 1
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  checked={isTextEffectChecked}
+                  onChange={() => setIsTextEffectChecked(!isTextEffectChecked)}
+                /> 
+                Effet Texte
               </label>
             </Col>
             <Col xs={4} className="text-center">
               <label>
-                <input type="checkbox" className="form-check-input" /> Effet 2
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  checked={isFilterChecked}
+                  onChange={() => setIsFilterChecked(!isFilterChecked)}
+                /> 
+                Filtre
               </label>
             </Col>
             <Col xs={4} className="text-center">
@@ -199,15 +249,17 @@ function App() {
             </Col>
           </Row>
 
+
+          {/* Bouton generation */}
           <Row className="mt-4">
             <Col xs={12} className="text-center">
-              <button className="cta-button" onClick={handleGenerateFont}>GÉNÉRER</button>
+              <button className="cta-button" onClick={handleGenerate}>GÉNÉRER</button>
             </Col>
           </Row>
 
           {/* Zone d'aperçu */}
           <Row className="mt-5">
-            {/* Aperçu Cover */}
+           {/* Aperçu Cover */}
             <Col xs={6} className="text-center">
               <div
                 className="cover-preview"
@@ -222,6 +274,7 @@ function App() {
                   border: "1px solid #ccc",
                   borderRadius: "15px",
                   position: "relative",
+                  filter: generatedFilter || "none",
                 }}
               >
                 {/* Texte affiché */}
@@ -229,16 +282,15 @@ function App() {
                   <div
                     style={{
                       fontFamily: randomFont,
-                      Color: generatedColor,
+                      color: "black",
                       position: "absolute",
                       bottom: "10px",
                       left: "50%",
                       transform: "translateX(-50%)",
-                      // color: "#000",
                       fontSize: "20px",
                       fontWeight: "bold",
                       textAlign: "center",
-                      textShadow: "1px 1px 2px rgba(255, 255, 255, 0.8)",
+                      textShadow: generatedTextEffect || "none",
                     }}
                   >
                     {inputText}
@@ -261,8 +313,30 @@ function App() {
                   backgroundSize: "cover",
                   boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)",
                   margin: "0 auto",
+                  filter: generatedFilter || "none",
                 }}
               >
+                {/* Texte affiché */}
+                {inputText && (
+                  <div
+                    style={{
+                      fontFamily: randomFont,
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      color: "black",
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      textShadow: generatedTextEffect || "none",
+                      zIndex: 3,
+                    }}
+                  >
+                    {inputText}
+                  </div>
+                )}
+
                 {/* Cercle de couleur au centre */}
                 {generatedColor && (
                   <div
@@ -298,29 +372,9 @@ function App() {
                   ></div>
                 )}
 
-                {/* Texte affiché */}
-                {inputText && (
-                  <div
-                    style={{
-                      fontFamily: randomFont,
-                      position: "absolute",
-                      top:"50%",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      Color: generatedColor,
-                      // color: "#000",
-                      fontSize: "16px",
-                      fontWeight: "bold",
-                      textAlign: "center",
-                      textShadow: "1px 1px 2px rgba(255, 255, 255, 0.8)",
-                      zIndex: 3,
-                    }}
-                  >
-                    {inputText}
-                  </div>
-                )}
               </div>
             </Col>
+
           </Row>
         </Container>
       </div>
