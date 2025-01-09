@@ -93,7 +93,7 @@ function App() {
   const [isTextEffectChecked, setIsTextEffectChecked] = useState(false);
   const [isFilterChecked, setIsFilterChecked] = useState(false);
   const coverMakerRef = useRef(null);
-
+  const [isFirstTime, setIsFirstTime] = useState(true);
 
   const handleScrollToCoverMaker = () => {
     setIsVisible(true);
@@ -139,6 +139,10 @@ function App() {
     handleGenerateFont();
     if (selectedColor) {  
       handleColorChange(selectedColor); 
+    }
+    if (isFirstTime) {
+      setIsGenerated(true);
+      setIsFirstTime(false);
     }
   };
   
@@ -279,7 +283,7 @@ function App() {
                 <div
                   className="cover-preview"
                   style={{
-                    left:"20%",
+                    left:"50%",
                     bottom:"5%",
                     width: "400px",
                     height: "400px",
@@ -289,7 +293,6 @@ function App() {
                     backgroundRepeat: "no-repeat",
                     backgroundColor: generatedColor,
                     border: "1px solid #ccc",
-                    borderRadius: "15px",
                     position: "relative",
                     filter: isFilterChecked ? randomFilter : "none"
                   }}
@@ -302,9 +305,9 @@ function App() {
                         color: "white",
                         position: "absolute",
                         bottom: "10px",
-                        left: "50%",
+                        left: "30%",
                         transform: "translateX(-50%)",
-                        fontSize: "32px",
+                        fontSize: "27px",
                         fontWeight: "bold",
                         textAlign: "center",
                         textShadow: isTextEffectChecked ? textEffects: "none",
@@ -318,22 +321,24 @@ function App() {
 
               {/* Aperçu CD */}
               <Col xs={6} className="text-center">
-                <div
-                  className="cd-preview"
-                  style={{
-                    position: "relative",
-                    width: "400px",
-                    height: "400px",
-                    bottom:"5%",
-                    borderRadius: "50%",
-                    background:
-                      "repeating-radial-gradient(rgba(228, 228, 228, 0) 23px, rgba(228, 228, 228, .05) 25px, rgba(228, 228, 228, 0) 27px) content-box, repeating-radial-gradient(rgba(166, 166, 166, 0) 13px, rgba(166, 166, 166, .05) 15px, rgba(166, 166, 166, 0) 17px) content-box, repeating-radial-gradient(rgba(139, 139, 139, 0) 19px, rgba(139, 139, 139, .05) 21px, rgba(139, 139, 139, 0) 23px) content-box, conic-gradient(#cdcdcd, #9d9d9d, #808080, #bcbcbc, #c4c4c4, #e6e6e6, #ddd, #a1a1a1, #7f7f7f, #8b8b8b, #bfbfbf, #e3e3e3, #d2d2d2, #a6a6a6, #858585, #8d8d8d, #c0c0c0, #e5e5e5, #d6d6d6, #9e9e9e, #828282, #8f8f8f, #bdbdbd, #e3e3e3, #cdcdcd)",
-                    backgroundSize: "cover",
-                    boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)",
-                    margin: "0 auto",
-                    filter: isFilterChecked ? randomFilter : "none"
-                  }}
-                >
+              <div
+                    className="cd-preview"
+                    style={{
+                      position: "relative",
+                      width: "370px",
+                      height: "370px",
+                      borderRadius: "50%",
+                      background:
+                        "repeating-radial-gradient(rgba(228, 228, 228, 0) 23px, rgba(228, 228, 228, .05) 25px, rgba(228, 228, 228, 0) 27px) content-box, repeating-radial-gradient(rgba(166, 166, 166, 0) 13px, rgba(166, 166, 166, .05) 15px, rgba(166, 166, 166, 0) 17px) content-box, repeating-radial-gradient(rgba(139, 139, 139, 0) 19px, rgba(139, 139, 139, .05) 21px, rgba(139, 139, 139, 0) 23px) content-box, conic-gradient(#cdcdcd, #9d9d9d, #808080, #bcbcbc, #c4c4c4, #e6e6e6, #ddd, #a1a1a1, #7f7f7f, #8b8b8b, #bfbfbf, #e3e3e3, #d2d2d2, #a6a6a6, #858585, #8d8d8d, #c0c0c0, #e5e5e5, #d6d6d6, #9e9e9e, #828282, #8f8f8f, #bdbdbd, #e3e3e3, #cdcdcd)",
+                      backgroundSize: "cover",
+                      boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)",
+                      margin: "0 auto",
+                      filter: isFilterChecked ? randomFilter : "none",
+                      animation: "slide-in-half 2s ease-in-out forwards",
+                      zIndex:"-1",
+                    }}
+                  >
+
                   {/* Texte affiché */}
                   {inputText && (
                     <div
