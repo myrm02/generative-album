@@ -89,7 +89,6 @@ function App() {
   const [isFilterChecked, setIsFilterChecked] = useState(false);
 
 
-
   const handleScrollToCoverMaker = () => {
     setIsVisible(true);
     coverMakerRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -99,20 +98,31 @@ function App() {
     const fonts = fontThemes.themes;
     return fonts[Math.floor(Math.random() * fonts.length)];
   };
+  
+  const getRandomFilter = () => {
+    const filterKeys = Object.keys(filters);
+    return filterKeys[Math.floor(Math.random() * filterKeys.length)];
+  };
 
+  const getRandomTextEffect = () => {
+    const effectKeys = Object.keys(textEffects);
+    return effectKeys[Math.floor(Math.random() * effectKeys.length)];
+  };
+
+  
   const handleGenerateFont = () => {
     const font = getRandomFont();
     setRandomFont(font);
   };
-
-  // const handleGenerateFilter = () => {
-  //   const filter = getRandomFilter();
-  //   setRandomFilter(filter);
-  // };
-
+  
   const handleGenerateFilter = () => {
-    const randomFilter = getRandomFilter();
-    setGeneratedFilter(randomFilter);
+    const filter = getRandomFilter();
+    setSelectedFilter(filter);
+  };
+
+  const handleGenerateTextEffect = () => {
+    const effect = getRandomTextEffect();
+    setSelectedTextEffect(effect);
   };
   
   const handleGenerate = () => {
@@ -274,7 +284,7 @@ function App() {
                   border: "1px solid #ccc",
                   borderRadius: "15px",
                   position: "relative",
-                  filter: generatedFilter || "none",
+                  filter: isFilterChecked ? filters[selectedFilter] : "none",
                 }}
               >
                 {/* Texte affiché */}
@@ -290,7 +300,7 @@ function App() {
                       fontSize: "20px",
                       fontWeight: "bold",
                       textAlign: "center",
-                      textShadow: generatedTextEffect || "none",
+                      textShadow: isTextEffectChecked ? textEffects[selectedTextEffect] : "none",
                     }}
                   >
                     {inputText}
@@ -313,7 +323,7 @@ function App() {
                   backgroundSize: "cover",
                   boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)",
                   margin: "0 auto",
-                  filter: generatedFilter || "none",
+                  filter: isFilterChecked ? filters[selectedFilter] : "none",
                 }}
               >
                 {/* Texte affiché */}
@@ -329,7 +339,7 @@ function App() {
                       fontSize: "16px",
                       fontWeight: "bold",
                       textAlign: "center",
-                      textShadow: generatedTextEffect || "none",
+                      textShadow: isTextEffectChecked ? textEffects[selectedTextEffect] : "none",
                       zIndex: 3,
                     }}
                   >
