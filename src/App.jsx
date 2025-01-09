@@ -55,16 +55,16 @@ const fontThemes = {
   ],
 };
 
-const textEffects = {
-  effet: [
-    "",
-    "text-shadow: 0 0 5px #fff, 0 0 10px #ff6, 0 0 20px #fc0;",
-    "text-shadow: 1px 1px 2px black, 1px 1px 2px black;",
-    "text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);",
-    "text-shadow: -1px -1px 0px #fff, 1px -1px 0px #fff, -1px 1px 0px #fff, 1px 1px 0px #fff;",
-    "font-weight: bold;",
-  ],
-};
+// const textEffects = {
+//   effet: [
+//     "",
+//     "text-shadow: 0 0 5px #fff, 0 0 10px #ff6, 0 0 20px #fc0;",
+//     "text-shadow: 1px 1px 2px black, 1px 1px 2px black;",
+//     "text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);",
+//     "text-shadow: -1px -1px 0px #fff, 1px -1px 0px #fff, -1px 1px 0px #fff, 1px 1px 0px #fff;",
+//     "font-weight: bold;",
+//   ],
+// };
 
 const filters = {
    filter: [
@@ -88,7 +88,8 @@ function App() {
   const [inputText, setInputText] = useState("");
   const [randomFont, setRandomFont] = useState(fontThemes.themes[0]);
   const [randomFilter, setFilter] = useState(filters.filter[0]);
-  const [randomTextEffect, setTextEffect] = useState(textEffects.effet[0]);
+  
+  // const [randomTextEffect, setTextEffect] = useState(textEffects.effet[0]);
   const [isTextEffectChecked, setIsTextEffectChecked] = useState(false);
   const [isFilterChecked, setIsFilterChecked] = useState(false);
   const coverMakerRef = useRef(null);
@@ -101,9 +102,11 @@ function App() {
 
   const getRandomFont = () => fontThemes.themes[Math.floor(Math.random() * fontThemes.themes.length)];
   
+  // const getRandomFilter = () => filters.filter[Math.floor(Math.random() * filters.filter.length)];
   const getRandomFilter = () => filters.filter[Math.floor(Math.random() * filters.filter.length)];
 
-  const getRandomTextEffect = () => textEffects.effet[Math.floor(Math.random() * textEffects.effet.length)];
+
+  // const getRandomTextEffect = () => textEffects.effet[Math.floor(Math.random() * textEffects.effet.length)];
 
   
   const handleGenerateFont = () => {
@@ -114,12 +117,13 @@ function App() {
   const handleGenerateFilter = () => {
     const filterCover = getRandomFilter();
     setFilter(filterCover); 
+    setFilter(getRandomFilter());
   };
   
-  const handleGenerateTextEffect = () => {
-    const effeText = getRandomTextEffect();
-    setTextEffect(effeText);  
-  };
+  // const handleGenerateTextEffect = () => {
+  //   const effeText = getRandomTextEffect();
+  //   setTextEffect(effeText);  
+  // };
   
 
   const handleColorChange = (color) => {
@@ -130,7 +134,7 @@ function App() {
 
   const handleGenerate = () => {
     setIsGenerated(true);
-    if (isTextEffectChecked) handleGenerateTextEffect();
+    // if (isTextEffectChecked) handleGenerateTextEffect();
     if (isFilterChecked) handleGenerateFilter();
     handleGenerateFont();
     if (selectedColor) {  
@@ -261,7 +265,6 @@ function App() {
             </Col>
           </Row>
 
-
           {/* Bouton generation */}
           <Row className="mt-4">
             <Col xs={12} className="text-center">
@@ -276,8 +279,10 @@ function App() {
                 <div
                   className="cover-preview"
                   style={{
-                    width: "300px",
-                    height: "300px",
+                    left:"20%",
+                    bottom:"5%",
+                    width: "400px",
+                    height: "400px",
                     backgroundImage: `url(${selectedCover})`,
                     backgroundSize: "contain",
                     backgroundPosition: "center",
@@ -286,7 +291,7 @@ function App() {
                     border: "1px solid #ccc",
                     borderRadius: "15px",
                     position: "relative",
-                    filter: isFilterChecked ? filters[randomFilter] : "none",
+                    filter: isFilterChecked ? randomFilter : "none"
                   }}
                 >
                   {/* Texte affiché */}
@@ -294,15 +299,15 @@ function App() {
                     <div
                       style={{
                         fontFamily: randomFont,
-                        color: "black",
+                        color: "white",
                         position: "absolute",
                         bottom: "10px",
                         left: "50%",
                         transform: "translateX(-50%)",
-                        fontSize: "20px",
+                        fontSize: "32px",
                         fontWeight: "bold",
                         textAlign: "center",
-                        textShadow: isTextEffectChecked ? textEffects[randomTextEffect] : "none",
+                        // textShadow: isTextEffectChecked ? textEffects[randomTextEffect] : "none",
                       }}
                     >
                       {inputText}
@@ -317,8 +322,9 @@ function App() {
                   className="cd-preview"
                   style={{
                     position: "relative",
-                    width: "300px",
-                    height: "300px",
+                    width: "400px",
+                    height: "400px",
+                    bottom:"5%",
                     borderRadius: "50%",
                     background:
                       "repeating-radial-gradient(rgba(228, 228, 228, 0) 23px, rgba(228, 228, 228, .05) 25px, rgba(228, 228, 228, 0) 27px) content-box, repeating-radial-gradient(rgba(166, 166, 166, 0) 13px, rgba(166, 166, 166, .05) 15px, rgba(166, 166, 166, 0) 17px) content-box, repeating-radial-gradient(rgba(139, 139, 139, 0) 19px, rgba(139, 139, 139, .05) 21px, rgba(139, 139, 139, 0) 23px) content-box, conic-gradient(#cdcdcd, #9d9d9d, #808080, #bcbcbc, #c4c4c4, #e6e6e6, #ddd, #a1a1a1, #7f7f7f, #8b8b8b, #bfbfbf, #e3e3e3, #d2d2d2, #a6a6a6, #858585, #8d8d8d, #c0c0c0, #e5e5e5, #d6d6d6, #9e9e9e, #828282, #8f8f8f, #bdbdbd, #e3e3e3, #cdcdcd)",
@@ -334,14 +340,14 @@ function App() {
                       style={{
                         fontFamily: randomFont,
                         position: "absolute",
-                        top: "50%",
+                        top: "40%",
                         left: "50%",
                         transform: "translateX(-50%)",
-                        color: "black",
-                        fontSize: "16px",
+                        color: "white",
+                        fontSize: "32px",
                         fontWeight: "bold",
                         textAlign: "center",
-                        textShadow: isTextEffectChecked ? textEffects[randomTextEffect] : "none",
+                        // textShadow: isTextEffectChecked ? textEffects[randomTextEffect] : "none",
                         zIndex: 3,
                       }}
                     >
