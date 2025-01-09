@@ -245,17 +245,6 @@ function App() {
                 <input
                   type="checkbox"
                   className="form-check-input"
-                  checked={isTextEffectChecked}
-                  onChange={() => setIsTextEffectChecked(!isTextEffectChecked)}
-                /> 
-                Effet Texte
-              </label>
-            </Col>
-            <Col xs={4} className="text-center">
-              <label>
-                <input
-                  type="checkbox"
-                  className="form-check-input"
                   checked={isFilterChecked}
                   onChange={() => setIsFilterChecked(!isFilterChecked)}
                 /> 
@@ -264,7 +253,12 @@ function App() {
             </Col>
             <Col xs={4} className="text-center">
               <label>
-                <input type="checkbox" className="form-check-input" /> Effet 3
+                <input type="checkbox" className="form-check-input" /> Effet 1
+              </label>
+            </Col>
+            <Col xs={4} className="text-center">
+              <label>
+                <input type="checkbox" className="form-check-input" /> Effet 2
               </label>
             </Col>
           </Row>
@@ -303,9 +297,8 @@ function App() {
                         fontFamily: randomFont,
                         color: "white",
                         position: "absolute",
-                        bottom: "10px",
-                        left: "30%",
-                        bottom:"10%",
+                        left: "27%",
+                        bottom:"7%",
                         transform: "translateX(-50%)",
                         fontSize: "24px",
                         fontWeight: "bold",

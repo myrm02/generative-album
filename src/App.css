@@ -211,7 +211,11 @@ p {
 /* Responsive Design */
 @media (max-width: 768px) {
   .page-title {
-    font-size: 1.8rem; 
+    font-size: 2rem; 
+  }
+  
+  .album-title {
+    font-size: 1.8rem;
   }
 
   .text-content {
@@ -224,26 +228,13 @@ p {
     text-align: center;
   }
 
+
   .background-image-container {
-    position: fixed; /* Rend l'image fixe au scroll */
-    height: 100vh; /* S'assure qu'elle prend tout l'écran */
-    z-index: 1;
-    overflow: hidden;
-  
-  }
-
-  .background-image{
-    position: absolute;
-    top: 25%;
-    left: 50%;
-    width: 50%;
-    height: 100%;
-    object-fit: cover;
-
+    display: none; 
   }
 
   .main-section .text-content {
-    margin-top: 50px; /* Ajuster le texte */
+    margin-top: 50px; 
   }
 
   .cta-button {
