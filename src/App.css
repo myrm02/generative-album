@@ -2,16 +2,36 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Kavoon', cursive;
   background: url(./assets/img/back.png) no-repeat center center fixed;
   background-size: cover; 
   background-blend-mode: overlay;
+  background-color: rgba(0, 0, 0, 0.134);
 }
 
-/* Titre de la page */
+.main-section {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+/* Contenu textuel */
 .page-title {
+  font-size: 5rem;
+  font-family: "Lavishly Yours", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-weight: bolder;
+  margin: 20px 0;
+  color: rgb(15, 14, 14);
+  text-shadow: 10px 10px 15px rgba(153, 50, 52, 1);
+  text-align: center;
+  -webkit-text-stroke: 0.5px #FD4A93;
+}
+
+.album-title {
   font-size: 2.5rem;
   font-weight: bold;
+  font-family: 'Kavoon', cursive;
   margin: 20px 0;
   color: white;
   text-shadow: 10px 10px 15px rgba(153, 50, 52, 1);
@@ -19,37 +39,41 @@ body {
   -webkit-text-stroke: 0.5px #FD4A93;
 }
 
-/* Contenu textuel */
 .text-content {
-  margin-bottom: 120px;
+  margin-top:50px;
+  position: relative;
+  z-index: 3;
 }
 
 p {
-  font-size: 1.4rem;
+  font-size: 2em;
   margin: 0;
-  text-align: right;
-  color: white;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-family: 'Playfair Display', serif;
+  color: rgb(255, 255, 255);
   text-shadow: 5px 5px 10px rgba(120, 20, 21, 1);
   -webkit-text-stroke: 0.5px #FD4A93;
 }
 
-.thumbnail-gallery {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin: 20px 0;
-  flex-wrap: wrap;
+/* Image principale */
+.background-image-container {
+  position: absolute; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; 
+  overflow: hidden;
 }
 
-.thumbnail-gallery img {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  transition: transform 0.3s ease;
-}
-
-.thumbnail-gallery img:hover {
-  transform: scale(1.1);
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  object-fit: cover;
 }
 
 
@@ -141,6 +165,7 @@ p {
   background-color: #d37ab6;
   color: white;
   border: 3px solid #800080;
+  font-family: 'Kavoon', cursive;
   padding: 15px 30px;
   border-radius: 30px;
   transition: background-color 0.3s ease, transform 0.2s ease;
@@ -170,14 +195,26 @@ p {
     text-align: center;
   }
 
-  .thumbnail-gallery img {
-    width: 100px;
-    height: 100px;
+  .background-image-container {
+    position: fixed; /* Rend l'image fixe au scroll */
+    height: 100vh; /* S'assure qu'elle prend tout l'écran */
+    z-index: 1;
+    overflow: hidden;
+  
   }
 
-  .thumbnail-gallery {
-    gap: 10px; 
-    flex-direction: row; 
+  .background-image{
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+
+  }
+
+  .main-section .text-content {
+    margin-top: 50px; /* Ajuster le texte */
   }
 
   .cta-button {

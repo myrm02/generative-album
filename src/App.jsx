@@ -6,20 +6,56 @@ import Header from "./header";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import dojaImage from "./assets/img/doja_concert.png";
-import coverPink from "./assets/img/Tcover_pink-removebg-preview.png";
-import coverMauve from "./assets/img/Tcover_mauve-removebg-preview.png";
-import coverViolet from "./assets/img/Tcover_violet-removebg-preview.png";
+import dojaback from "./assets/img/dojaback2.png";
 import Pink from "./assets/img/doja1.png";
 import Mauve from "./assets/img/doja2.png";
 import Violet from "./assets/img/doja3.png";
+import Concert from "./assets/img/doja_concert.png";
+import Back from "./assets/img/dojaback.png";
 
 const colorThemes = {
-  rose: ["#FFC0CB", "#FFB6C1", "#FF69B4", "#FF1493"],
-  fuchsia: ["#FF00FF", "#FF77FF", "#FF44CC", "#FF0088"],
-  violet: ["#EE82EE", "#DA70D6", "#BA55D3", "#9400D3"],
-  mauve: ["#E0B0FF", "#DDA0DD", "#C8A2C8", "#A020F0"]
+  rose: [
+    "#FFC0CB", "#FFB6C1", "#FF69B4", "#FF1493", "#FF66B2", 
+    "#FF3399", "#FF1D6A", "#F50057", "#D50045", "#C2185B"
+  ],
+  fuchsia: [
+    "#FF00FF", "#FF77FF", "#FF44CC", "#FF0088", "#F500F5", 
+    "#D500D1", "#C500B2", "#A4008F", "#9A008D", "#8800FF"
+  ],
+  violet: [
+    "#EE82EE", "#DA70D6", "#BA55D3", "#9400D3", "#8A2BE2", 
+    "#7A4B93", "#6A0DAD", "#9B30FF", "#A64DFF", "#9B4F96"
+  ],
+  mauve: [
+    "#E0B0FF", "#DDA0DD", "#C8A2C8", "#A020F0", "#A9A2D6", 
+    "#9E6BFF", "#B39DDB", "#9C81B1", "#B0A0D2", "#A7A8D3"
+  ],
+  bleu: [
+    "#0000FF", "#1E90FF", "#6495ED", "#4682B4", "#5F9EA0", 
+    "#00BFFF", "#ADD8E6", "#87CEFA", "#4169E1", "#00008B"
+  ],
+  rouge: [
+    "#FF0000", "#DC143C", "#B22222", "#FF6347", "#FF4500", 
+    "#E9967A", "#FA8072", "#F08080", "#CD5C5C", "#8B0000"
+  ]
 };
+
+
+const fontThemes = {
+  themes: [
+    "Lavishly Yours",
+    "Kavoon",
+    "Montserrat",
+    "Playfair Display",
+    "Roboto",
+    "Fira Sans",
+    "Imperial Script",
+    "Cursive",
+    "Poppins",
+    "Lobster",
+  ],
+};
+
 
 function App() {
   const [isVisible, setIsVisible] = useState(false);
@@ -28,10 +64,22 @@ function App() {
   const [selectedCover, setSelectedCover] = useState(null);
   const mainRef = useRef(null);
   const coverMakerRef = useRef(null);
+  const [inputText, setInputText] = useState("");
+  const [randomFont, setRandomFont] = useState(fontThemes.themes[0]);
 
   const handleScrollToCoverMaker = () => {
     setIsVisible(true);
     coverMakerRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const getRandomFont = () => {
+    const fonts = fontThemes.themes;
+    return fonts[Math.floor(Math.random() * fonts.length)];
+  };
+
+  const handleGenerateFont = () => {
+    const font = getRandomFont();
+    setRandomFont(font);
   };
 
   const handleColorChange = (color) => {
@@ -45,29 +93,15 @@ function App() {
       {/* Section principale */}
       <div ref={mainRef} className={`main-section ${isVisible ? "hidden" : ""}`}>
         <Header />
-        <h1 className="page-title">Exprimez vos 5 langages de l'amour en image</h1>
+        <div className="background-image-container">
+          <img src={dojaback} alt="Background" className="background-image" />
+        </div>
         <Container>
           <Row className="align-items-center">
-            <Col xs={12} md={6} className="text-center">
-              <img
-                src={dojaImage}
-                alt="Doja Cat"
-                className="img-fluid hero-image"
-              />
-            </Col>
-
             <Col xs={12} md={6} className="text-content">
-              <p>
-                Créez votre pochette personnalisée pour l'album{" "}
-                <strong>5 Love Languages</strong> de Doja Cat avec notre app
-                générative.
-              </p>
-              <div className="thumbnail-gallery d-flex justify-content-center gap-3">
-                <img src={coverPink} alt="Thumbnail 1" className="thumbnail" />
-                <img src={coverMauve} alt="Thumbnail 2" className="thumbnail" />
-                <img src={coverViolet} alt="Thumbnail 3" className="thumbnail" />
-              </div>
-
+              <h1 className="page-title">DOJA CAT</h1>
+              <h2 className="album-title">5 Love Languages</h2>
+              <p className="page-texte">Exprimez vos 5 langages de l'amour en image</p>
               <button
                 className="cta-button mt-3"
                 onClick={handleScrollToCoverMaker}
@@ -75,6 +109,7 @@ function App() {
                 COMMENCER L'EXPERIENCE
               </button>
             </Col>
+            <Col xs={12} md={6} className="text-center"></Col>
           </Row>
         </Container>
       </div>
@@ -95,21 +130,27 @@ function App() {
               >
                 <option value="">Sélectionner</option>
                 <option value="rose">Rose</option>
+                <option value="rouge">Rouge</option>
                 <option value="fuchsia">Fuchsia</option>
                 <option value="violet">Violet</option>
                 <option value="mauve">Mauve</option>
+                <option value="bleu">Bleu</option>
               </select>
             </Col>
 
+            {/* Saisie du texte */}
             <Col xs={6} md={3} className="text-center">
               <label className="form-label">TEXTE</label>
               <input
                 type="text"
                 className="form-input"
                 placeholder="Ecrire un texte"
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
               />
             </Col>
 
+            {/* Sélection de l'image */}
             <Col xs={6} md={3} className="text-center">
               <label className="form-label">IMAGE COVER</label>
               <select
@@ -117,24 +158,29 @@ function App() {
                 onChange={(e) => setSelectedCover(e.target.value)}
               >
                 <option value={null}>Aucune</option>
-                <option value={Pink}>image1 </option>
+                <option value={Pink}>Image 1</option>
                 <option value={Mauve}>Image 2</option>
                 <option value={Violet}>Image 3</option>
+                <option value={Concert}>Image 4</option>
+                <option value={Back}>Image 5</option>
+                <option value={dojaback}>Image 6</option>
               </select>
             </Col>
 
             <Col xs={6} md={3} className="text-center">
-              <label className="form-label">Nombres illustration</label>
+              <label className="form-label">Nombre d'illustrations</label>
               <input
-                type="text"
+                type="number"
                 className="form-input"
-                placeholder="Ecrire un texte"
+                min="0"
+                max="10"
+                placeholder="Entrez un nombre"
               />
             </Col>
           </Row>
           
 
-          {/* Deuxième ligne avec checkboxs et bouton */}
+          {/* Ligne effets */}
           <Row className="mt-4">
             <Col xs={4} className="text-center">
               <label>
@@ -155,13 +201,13 @@ function App() {
 
           <Row className="mt-4">
             <Col xs={12} className="text-center">
-              <button className="cta-button">GÉNÉRER</button>
+              <button className="cta-button" onClick={handleGenerateFont}>GÉNÉRER</button>
             </Col>
           </Row>
 
           {/* Zone d'aperçu */}
           <Row className="mt-5">
-            {/* Ccover preview */}
+            {/* Aperçu Cover */}
             <Col xs={6} className="text-center">
               <div
                 className="cover-preview"
@@ -175,11 +221,34 @@ function App() {
                   backgroundColor: generatedColor,
                   border: "1px solid #ccc",
                   borderRadius: "15px",
+                  position: "relative",
                 }}
-              ></div>
+              >
+                {/* Texte affiché */}
+                {inputText && (
+                  <div
+                    style={{
+                      fontFamily: randomFont,
+                      Color: generatedColor,
+                      position: "absolute",
+                      bottom: "10px",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      // color: "#000",
+                      fontSize: "20px",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      textShadow: "1px 1px 2px rgba(255, 255, 255, 0.8)",
+                    }}
+                  >
+                    {inputText}
+                  </div>
+                )}
+              </div>
             </Col>
+
+            {/* Aperçu CD */}
             <Col xs={6} className="text-center">
-              {/* CD Preview */}
               <div
                 className="cd-preview"
                 style={{
@@ -201,7 +270,7 @@ function App() {
                       position: "absolute",
                       top: "15%",
                       left: "15%",
-                      width: "70%" ,
+                      width: "70%",
                       height: "70%",
                       borderRadius: "50%",
                       backgroundColor: generatedColor,
@@ -224,9 +293,31 @@ function App() {
                       backgroundImage: `url(${selectedCover})`,
                       backgroundSize: "cover",
                       backgroundPosition: "top",
-                      zInde: 2,
+                      zIndex: 2,
                     }}
                   ></div>
+                )}
+
+                {/* Texte affiché */}
+                {inputText && (
+                  <div
+                    style={{
+                      fontFamily: randomFont,
+                      position: "absolute",
+                      top:"50%",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      Color: generatedColor,
+                      // color: "#000",
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      textShadow: "1px 1px 2px rgba(255, 255, 255, 0.8)",
+                      zIndex: 3,
+                    }}
+                  >
+                    {inputText}
+                  </div>
                 )}
               </div>
             </Col>
