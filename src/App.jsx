@@ -67,15 +67,16 @@ const fontThemes = {
 // };
 
 const filters = {
-   filter: [
-    "",
-    "filter: hue-rotate(-30deg) sepia(75%) contrast(150%) saturate(300%);",
-    "filter: hue-rotate(180deg) sepia(75%) contrast(150%) saturate(300%);",
-    "filter: sepia(50%) contrast(150%) saturate(200%) brightness(100%);",
-    "filter: brightness(70%) contrast(150%) saturate(0%);",
-    "filter: hue-rotate(-270deg) sepia(55%) contrast(150%) saturate(300%);",
+  filter: [
+    "", // Aucun filtre
+    "hue-rotate(-30deg) sepia(75%) contrast(150%) saturate(300%)", // Filtre 1
+    "hue-rotate(180deg) sepia(75%) contrast(150%) saturate(300%)", // Filtre 2
+    "sepia(50%) contrast(150%) saturate(200%) brightness(100%)", // Filtre 3
+    "brightness(70%) contrast(150%) saturate(0%)", // Filtre 4
+    "hue-rotate(-270deg) sepia(55%) contrast(150%) saturate(300%)", // Filtre 5
   ],
 };
+
 
 
 function App() {
@@ -88,7 +89,6 @@ function App() {
   const [inputText, setInputText] = useState("");
   const [randomFont, setRandomFont] = useState(fontThemes.themes[0]);
   const [randomFilter, setFilter] = useState(filters.filter[0]);
-  
   // const [randomTextEffect, setTextEffect] = useState(textEffects.effet[0]);
   const [isTextEffectChecked, setIsTextEffectChecked] = useState(false);
   const [isFilterChecked, setIsFilterChecked] = useState(false);
@@ -117,7 +117,7 @@ function App() {
   const handleGenerateFilter = () => {
     const filterCover = getRandomFilter();
     setFilter(filterCover); 
-    setFilter(getRandomFilter());
+
   };
   
   // const handleGenerateTextEffect = () => {
@@ -134,7 +134,7 @@ function App() {
 
   const handleGenerate = () => {
     setIsGenerated(true);
-    // if (isTextEffectChecked) handleGenerateTextEffect();
+    if (isTextEffectChecked) handleGenerateTextEffect();
     if (isFilterChecked) handleGenerateFilter();
     handleGenerateFont();
     if (selectedColor) {  
@@ -307,7 +307,7 @@ function App() {
                         fontSize: "32px",
                         fontWeight: "bold",
                         textAlign: "center",
-                        // textShadow: isTextEffectChecked ? textEffects[randomTextEffect] : "none",
+                        textShadow: isTextEffectChecked ? textEffects: "none",
                       }}
                     >
                       {inputText}
@@ -331,7 +331,7 @@ function App() {
                     backgroundSize: "cover",
                     boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)",
                     margin: "0 auto",
-                    filter: isFilterChecked ? filters[randomFilter] : "none",
+                    filter: isFilterChecked ? randomFilter : "none"
                   }}
                 >
                   {/* Texte affiché */}
@@ -347,7 +347,7 @@ function App() {
                         fontSize: "32px",
                         fontWeight: "bold",
                         textAlign: "center",
-                        // textShadow: isTextEffectChecked ? textEffects[randomTextEffect] : "none",
+                        textShadow: isTextEffectChecked ? textEffects : "none",
                         zIndex: 3,
                       }}
                     >
