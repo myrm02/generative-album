@@ -3,6 +3,7 @@ import React, { useState, useRef } from "react";
 import "react-color-palette/css";
 import "./App.css";
 import Header from "./header";
+import Footer from "./Footer";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -441,7 +442,9 @@ function App() {
 
           </Row>
         </Container>
+        <Footer />
       </div>
+      
     </div>
   );
 }

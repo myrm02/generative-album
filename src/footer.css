@@ -1,0 +1,19 @@
+/* Footer.css */
+.footer {
+    background-color: #222;
+    color: white;
+    padding: 10px 0;
+    position: relative;
+    top: 47%;
+    width: 100%;
+  }
+  
+  .footer a {
+    color: #ff1493;
+    text-decoration: none;
+  }
+  
+  .footer a:hover {
+    text-decoration: underline;
+  }
+  

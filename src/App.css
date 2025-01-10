@@ -227,7 +227,14 @@ p {
     font-size: 1rem; 
     text-align: center;
   }
-
+  .cd-preview{
+    width: 100px;
+    height: 100px;
+  }
+  .cover-preview{
+    width: 70px;
+    height: 70px;
+  }
 
   .background-image-container {
     display: none; 
